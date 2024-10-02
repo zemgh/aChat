@@ -2,11 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Чат</title>
+    <link rel="stylesheet" href="/static/css/chat.css">
 </head>
 <body>
 
-{{ message }}
+
+<div id="chat">
+
+    <div id="head">
+        <div>{{ user }}user</div>
+        <div>settings</div>
+        <div>logut</div>
+    </div>
+
+    <div id="menu">
+        <div id="new_chat" class="menu_button_enabled">Новый чат</div>
+        <div id="cancel_search" class="menu_button_disabled">Оменить поиск</div>
+        <div id="close_chat" class="menu_button_disabled">Закрыть чат</div>
+    </div>
+
+    <div id="messages">
+        <div id="message">1</div>
+        <div id="message">1</div>
+        <div id="message">1</div>
+    </div>
+
+    <div id="input">
+        <textarea rows="5" id="input_field"></textarea>
+        <div id="input_button">Отправить</div>
+    </div>
+
+</div>
+
 
 <script src="/static/js/chat/ws.js"></script>
 <script src="/static/js/chat/init.js"></script>
