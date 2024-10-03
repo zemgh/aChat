@@ -17,16 +17,17 @@
     </div>
 
     <div id="menu">
-        <div id="new_chat" class="menu_button_enabled">Новый чат</div>
-        <div id="cancel_search" class="menu_button_disabled">Оменить поиск</div>
-        <div id="close_chat" class="menu_button_disabled">Закрыть чат</div>
+        <div id="left_menu">
+            <div id="new_chat" class="menu_button_enabled">Новый чат</div>
+            <div id="cancel_search" class="menu_button_disabled">Оменить поиск</div>
+            <div id="close_chat" class="menu_button_disabled">Закрыть чат</div>
+        </div>
+        <div id="right_menu">
+            <div id="clear_chat" class="menu_button_enabled">Очистить чат</div>
+        </div>
     </div>
 
-    <div id="messages">
-        <div id="message">1</div>
-        <div id="message">1</div>
-        <div id="message">1</div>
-    </div>
+    <div id="messages"></div>
 
     <div id="input">
         <textarea rows="5" id="input_field"></textarea>
@@ -35,7 +36,8 @@
 
 </div>
 
-
+<script src="/static/js/chat/nodes.js"></script>
+<script src="/static/js/chat/interface.js"></script>
 <script src="/static/js/chat/ws.js"></script>
 <script src="/static/js/chat/init.js"></script>
 

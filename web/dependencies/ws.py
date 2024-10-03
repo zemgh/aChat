@@ -1,3 +1,4 @@
+import json
 from typing import Dict
 from starlette.websockets import WebSocket, WebSocketDisconnect
 
@@ -25,12 +26,14 @@ class WebSocketConsumer:
 
     async def run(self):
         await self._websocket.accept()
-        await self._websocket.send_json({'message': 'Hello World!'})
+        await self._websocket.send_json({'type': 'chat_message', 'text': 'Hello World!'})
 
         try:
             while True:
-                data = await self._websocket.receive_text()
-                await self._websocket.send_text(data)
+                json_data = await self._websocket.receive_text()
+                data = json.loads(json_data)
+                print(data)
+                await self._websocket.send_text(json.dumps(data))
 
         except WebSocketDisconnect:
             await self._manager.remove(self._user_id)

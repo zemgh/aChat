@@ -1,6 +1,9 @@
 function init() {
-    window.connection = new WebSocketConnectionManager();
-    window.addEventListener('beforeunload', () => connection.close());
+    const chatElement = document.querySelector('#messages');
+    const chat = new Chat(chatElement, Message);
+
+    const messages_handler = new WebSocketMessagesHandler(chat);
+    const connection = new WebSocketConnectionManager(messages_handler);
 }
 
-init();
+document.addEventListener("DOMContentLoaded", init);

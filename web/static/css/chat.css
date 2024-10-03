@@ -36,9 +36,20 @@ body {
 
 #menu{
     display: flex;
-    justify-content: center;
     flex-direction: row;
+}
+
+#left_menu {
+    display: inherit;
+    justify-content: start;
     gap: 20px;
+    width: 75%;
+}
+
+#right_menu {
+    display: inherit;
+    justify-content: end;
+    width: 25%;
 }
 
 .menu_button_enabled {
@@ -88,7 +99,6 @@ body {
     resize: none;
     outline: none;
     padding: 15px;
-    border-radius: 0;
 }
 
 #input_button{
