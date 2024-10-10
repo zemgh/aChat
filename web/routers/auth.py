@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
-from dependencies.utils import get_templates
+from utils import get_templates
 
 router = APIRouter(prefix='/auth', tags=['auth'])
 

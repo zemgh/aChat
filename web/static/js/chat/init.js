@@ -1,9 +1,11 @@
-function init() {
-    const chatElement = document.querySelector('#messages');
-    const chat = new Chat(chatElement, Message);
+const MESSAGE_CLASS = Message;
 
+function init() {
+    const ws_connection = new WebSocketConnectionManager();
+    const chat = new Chat(MESSAGE_CLASS, ws_connection);
     const messages_handler = new WebSocketMessagesHandler(chat);
-    const connection = new WebSocketConnectionManager(messages_handler);
+
+    ws_connection.addHandler(messages_handler);
 }
 
 document.addEventListener("DOMContentLoaded", init);

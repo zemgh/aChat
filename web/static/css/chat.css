@@ -88,8 +88,8 @@ body {
 
 #input {
     display: flex;
-    gap: 20px;
     align-items: center;
+    gap: 10px;
     margin: 10px;
 }
 
@@ -101,10 +101,18 @@ body {
     padding: 15px;
 }
 
-#input_button{
+.input_button_enabled {
     display: grid;
     place-items: center;
     background-color: green;
+    padding: 10px;
+    user-select: none;
+}
+
+.input_button_disabled {
+    display: grid;
+    place-items: center;
+    background-color: gray;
     padding: 10px;
     user-select: none;
 }
