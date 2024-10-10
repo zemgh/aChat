@@ -54,6 +54,8 @@ class WebSocketMessagesHandler {
             case 'close_chat':
                 this.#chat.closeChat(); break;
 
+            case 'notify':
+                this.#chat.addNotify(data.message); break;
         }
     }
 }

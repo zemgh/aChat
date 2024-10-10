@@ -49,6 +49,7 @@ class BaseConsumer:
         if message_type and message_type in self.ALLOWED_MESSAGE_TYPES:
             method = getattr(self, '_' + message_type)
             await method(data)
+            print('method: ', method, data)
 
     async def _send(self, data):
         await self._websocket.send_json(data)
@@ -74,38 +75,56 @@ class ChatConsumer(BaseConsumer):
 
     async def start_chat(self, data: dict):
         if self.search_chat:
+
             self.search_chat = False
+
             self.active_chat = data['chat_id']
             send_data = {'type': 'new_chat'}
+
             await self._send(send_data)
-            print('method start_chat')
+            await self._notify('Собеседник найден!')
+
+
+    async def _notify(self, text):
+        send_data = {'type': 'notify', 'message': text}
+        await self._send(send_data)
+
 
     async def _chat_message(self, data: dict):
         if self.active_chat:
+
             await self._send(data)
-            print('method _chat_message')
 
 
     async def _find_chat(self, data: dict):
-        self.search_chat = True
-        send_data = {'type': 'find_chat'}
-        await self._send(send_data)
-        print('method _find_chat')
+        if not self.active_chat and not self.search_chat:
 
-        asyncio.create_task(self.test())
+            self.search_chat = True
+
+            send_data = {'type': 'find_chat'}
+            await self._send(send_data)
+            await self._notify('Поиск собеседника ...')
+
+            asyncio.create_task(self.test())
+
 
     async def test(self):
         await asyncio.sleep(3)
         await self.start_chat({'chat_id': 1})
 
+
     async def _cancel_search(self, data: dict):
-        self.search_chat = False
-        await self._send({'type': 'cancel_search'})
-        print('method _cancel_search')
+        if not self.active_chat and self.search_chat:
+
+            self.search_chat = False
+
+            await self._send({'type': 'cancel_search'})
 
 
     async def _close_chat(self, data: dict):
-        self.active_chat = None
-        await self._send({'type': 'close_chat'})
-        print('method _close_chat')
+        if self.active_chat:
 
+            self.active_chat = None
+
+            await self._send({'type': 'close_chat'})
+            await self._notify('Чат закрыт')

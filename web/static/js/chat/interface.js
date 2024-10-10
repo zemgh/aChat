@@ -19,7 +19,6 @@ class Chat {
     #cancel_search_button;
     #close_chat_button;
 
-    #messages_lst;
     #messageClass;
 
     #active_chat = false;
@@ -28,7 +27,6 @@ class Chat {
     constructor(messageClass, ws_connection) {
 
         this.#messageClass = messageClass;
-        this.#messages_lst = [];
 
         this.ws_connection = ws_connection;
 
@@ -39,9 +37,13 @@ class Chat {
 
     addMessage(text) {
         const chatMessage = this.#createChatMessage(text);
-        const messageElement = new this.#messageClass(chatMessage);
-        this.#messages_field.appendChild(messageElement.element);
-        this.#messages_lst.push(chatMessage);
+        this.#pushMessage(chatMessage)
+    }
+
+
+    addNotify(text) {
+        const chatMessage = this.#createChatNotify(text);
+        this.#pushMessage(chatMessage)
     }
 
 
@@ -83,7 +85,18 @@ class Chat {
 
 
     #createChatMessage(text) {
-        return `${this.#getCurrentTime()} ${text}`
+        return `[ ${this.#getCurrentTime()} ] ${text}`
+    }
+
+
+    #createChatNotify(text) {
+        return `[ ${this.#getCurrentTime()} ] [ aChat ] ${text}`
+    }
+
+
+    #pushMessage(chatMessage) {
+        const messageElement = new this.#messageClass(chatMessage);
+        this.#messages_field.appendChild(messageElement.element);
     }
 
 
@@ -181,6 +194,6 @@ class Chat {
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
 
-        return `[ ${hours}:${minutes}:${seconds} ]`;
+        return `${hours}:${minutes}:${seconds}`;
     }
 }
