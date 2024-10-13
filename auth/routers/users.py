@@ -1,16 +1,29 @@
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from starlette import status
+
+from db import get_db
+from models import User
+from repository import UserRepository
+from schemas.users import UserCreateSchema
 
 router = APIRouter(prefix='/api/v1/users', tags=['users'])
 
 
-@router.post('/create')
-async def create_user():
-    return {'message': 'create user'}
+@router.post('/create', status_code=status.HTTP_201_CREATED)
+async def create_user(db: Annotated[AsyncSession, Depends(get_db)], data: UserCreateSchema):
+    repository = UserRepository(db)
+    created_user = await repository.create_user(data)
+    return created_user
 
 
-@router.get('/{id}')
-async def get_user():
-    return {'message': 'get user'}
+@router.get('/{user_id}', status_code=status.HTTP_200_OK)
+async def get_user(db: Annotated[AsyncSession, Depends(get_db)], user_id: int):
+    repository = UserRepository(db)
+    user = await repository.get_user(user_id)
+    return user
 
 
 @router.put('/{id}/update')
